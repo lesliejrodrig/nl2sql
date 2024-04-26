@@ -1,0 +1,117 @@
+{
+  "info": {
+    "title": "OpenAPI for Watson Assistant",
+    "version": "1.0.1"
+  },
+  "tags": [],
+  "servers": [
+    {
+      "description": "Code Engine deployment",
+      "url": "https://{appname}.{projectid}.{region}.codeengine.appdomain.cloud",
+      "variables": {
+        "appname": {
+          "default": "watsonx-nlsqlnl-2024",
+          "description": "application name"
+        },
+        "projectid": {
+          "default": "1f8a1r475iub",
+          "description": "the Code Engine project ID"
+        },
+        "region": {
+          "default": "us-south",
+          "description": "the deployment region, e.g., au-syd, eu-de, us-south"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/generate": {
+      "post": {
+        "parameters": [
+          {
+          "in": "query",
+          "name": "input",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },{
+          "in": "query",
+          "name": "conversation_id",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "description": "The message response from the LLM",
+                      "type": "string"
+                    },
+                    "conversation_id": {
+                      "description": "The conversation_id for the LLM",
+                      "type": "string"
+                    },
+                    "info": {
+                      "description": "Informational Messages for debugging",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Call watsonx",
+        "description": "Call LLM to generate SQL and get results based on input"
+      }
+    }
+  },
+  "openapi": "3.0.3",
+  "components": {
+    "schemas": {
+      "ValidationError": {
+        "properties": {
+          "detail": {
+            "type": "object",
+            "properties": {
+              "<location>": {
+                "type": "object",
+                "properties": {
+                  "<field_name>": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "HTTPError": {
+        "properties": {
+          "detail": {
+            "type": "object"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }    
+    }
+  }
+}
